@@ -1,2 +1,2 @@
 # ttstream
-Streaming for short video
+A reseach project for short video streaming 
