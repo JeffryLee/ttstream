@@ -4,3 +4,6 @@
 */test.py
 .mkv
 .mp4
+data_profile/tmp/*
+data_profile/video/*
+.DS_Store
