@@ -4,6 +4,10 @@
 */test.py
 .mkv
 .mp4
+.png
 data_profile/tmp/*
 data_profile/video/*
+data_profile/video_long/
+data_profile/log-long.txt
+data_profile/log-tt.txt
 .DS_Store
