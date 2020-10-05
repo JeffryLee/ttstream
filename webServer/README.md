@@ -1,1 +1,1 @@
-The content server uses Nginx to server dash files
+Flask webserver to get serve the website and https request

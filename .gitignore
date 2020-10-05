@@ -1,10 +1,10 @@
-.pyc
+*.pyc
 .xml
 .idea/
 */test.py
 .mkv
 .mp4
-.png
+*.png
 data_profile/tmp/*
 data_profile/video/*
 data_profile/video_long/
