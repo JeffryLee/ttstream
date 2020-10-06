@@ -1,3 +1,5 @@
+*.m4s
+*.mpd
 *.pyc
 .xml
 .idea/
