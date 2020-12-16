@@ -9,29 +9,30 @@ var thisVideo = '6836783718552636678';
 
 var nextVideo = '';
 var preVideo = '';
+var swaptmp = '';
 
 
-$.getJSON('/getpre', {
+$.getJSON('/getNeighbour', {
     vid: thisVideo}, function(data) {
-    preVideo = data.result
+    preVideo = data.uidPre;
+    nextVideo = data.uidNext;
 });
 
 
-$.getJSON('/getnext', {
-    vid: thisVideo}, function(data) {
-    nextVideo = data.result
-});
+
+
+
 
 player.ready(function() {
 
     player.src({
-        // src: 'https://s3.amazonaws.com/_bc_dml/example-content/sintel_dash/sintel_vod.mpd',
-        // src: 'https://bitmovin-a.akamaihd.net/content/playhouse-vr/mpds/105560.mpd',
         src: cdnaddress + thisVideo + '/manifest.mpd',
         type: 'application/dash+xml'
     });
 
     player.play();
+
+
 });
 
 
@@ -60,66 +61,41 @@ window.addEventListener("touchend",function(event){
         if(end > start + offset){
             // alert("left -> right");
 
-
             thisVideo = preVideo;
 
-
             player.src({
-                // src: 'https://bitmovin-a.akamaihd.net/content/playhouse-vr/mpds/105560.mpd',
-                // src: '/manifest.mpd',
                 src: cdnaddress + thisVideo + '/manifest.mpd',
                 type: 'application/dash+xml'
             });
 
 
-            $.getJSON('/getpre', {
-                vid: thisVideo}, function(data) {
-                preVideo = data.result
-            });
-
-
-            $.getJSON('/getnext', {
-                vid: thisVideo}, function(data) {
-                nextVideo = data.result
-            });
-
             player.play();
 
+
+            $.getJSON('/getNeighbour', {
+                vid: thisVideo}, function(data) {
+                preVideo = data.uidPre;
+                nextVideo = data.uidNext;
+            });
 
         }
 
 
-
         if(end < start - offset ){
-            // alert("right -> left");
-
-            // $.getJSON('/getnext', {
-            //     vid: thisVideo}, function(data) {
-            //     // $("#result").text(data.result);
-            //     thisVideo = data.result
-            // });
 
             thisVideo = nextVideo;
 
             player.src({
-                // src: 'https://s3.amazonaws.com/_bc_dml/example-content/sintel_dash/sintel_vod.mpd',
-                // src: '/manifest.mpd',
                 src: cdnaddress + thisVideo + '/manifest.mpd',
                 type: 'application/dash+xml'
             });
 
             player.play();
 
-
-            $.getJSON('/getpre', {
+            $.getJSON('/getNeighbour', {
                 vid: thisVideo}, function(data) {
-                preVideo = data.result
-            });
-
-
-            $.getJSON('/getnext', {
-                vid: thisVideo}, function(data) {
-                nextVideo = data.result
+                preVideo = data.uidPre;
+                nextVideo = data.uidNext;
             });
         }
     }
