@@ -33,6 +33,10 @@ class DbHandler:
 
         c = self.conn.cursor()
 
+        c.execute("DELETE FROM IDS")
+
+        self.conn.commit()
+
         for i in range(nlen):
 
             c.execute("INSERT INTO IDS VALUES (?, ?, ?)", (ids[i], predict[ids[i]], nextdict[ids[i]]))
