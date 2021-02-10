@@ -16,13 +16,12 @@ var view = document.getElementById('example-video');
 var cdnaddress = 'http://172.29.114.202:8080/dash/data/';
 
 
-var thisVideo = '6836783718552636678';
+var thisVideo = '5904810145583287557';
+
 
 var nextVideo = '';
 var preVideo = '';
 var swaptmp = '';
-
-
 
 
 $.getJSON('/getNeighbour', {
