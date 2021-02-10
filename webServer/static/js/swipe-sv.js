@@ -101,26 +101,7 @@ window.addEventListener("touchend",function(event){
         var end = event.changedTouches.item(0).clientX;
 
         if(end > start + offset){
-            // alert("left -> right");
-
-            // thisVideo = preVideo;
-
-            // player.src({
-            //     src: cdnaddress + thisVideo + '/manifest.mpd',
-            //     type: 'application/dash+xml'
-            // });
-
-
-            // player.play();
-
-
-            // $.getJSON('/getNeighbour', {
-            //     vid: thisVideo}, function(data) {
-            //     preVideo = data.uidPre;
-            //     nextVideo = data.uidNext;
-            // });
-
-            // does not process pre video
+            
 
         }
 
@@ -129,33 +110,6 @@ window.addEventListener("touchend",function(event){
 
             player.playNext();
 
-            // var url = cdnaddress + thisVideo + '/manifest.mpd';
-            // player.attachSource(url);
-        
-            // thisVideo = nextVideo;
-        
-        
-            // $.getJSON('/getNeighbour', {
-            //     vid: thisVideo}, function(data) {
-            //     preVideo = data.uidPre;
-            //     nextVideo = data.uidNext;
-            // });
-
-
-            // thisVideo = nextVideo;
-
-            // player.src({
-            //     src: cdnaddress + thisVideo + '/manifest.mpd',
-            //     type: 'application/dash+xml'
-            // });
-
-            // player.play();
-
-            // $.getJSON('/getNeighbour', {
-            //     vid: thisVideo}, function(data) {
-            //     preVideo = data.uidPre;
-            //     nextVideo = data.uidNext;
-            // });
         }
     }
 

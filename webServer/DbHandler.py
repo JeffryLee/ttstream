@@ -45,7 +45,7 @@ class DbHandler:
         self.conn.close()
 
     def __init__(self):
-        self.conn = sqlite3.connect('main.db')
+        self.conn = sqlite3.connect('main.db', check_same_thread=False)
 
 
     def queryNext(self, uid):
