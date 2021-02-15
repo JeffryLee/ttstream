@@ -81,6 +81,8 @@ def getpre():
 def getNeighbour():
     jsdata = request.args.get('vid', 0, type=str)
     ret = {}
+    print("======================")
+    print(jsdata)
     ret["uidPre"] = getPre(jsdata)
     ret["uidNext"] = getNext(jsdata)
     return jsonify(ret)
