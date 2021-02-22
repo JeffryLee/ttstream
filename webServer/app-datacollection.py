@@ -45,9 +45,9 @@ def getNext(vid):
 def getPre(vid):
     return dbHandler.queryPre(vid)
 
-@app.route('/svsd')
+@app.route('/json1')
 def json():
-    return render_template('index-datacollection.html')
+    return render_template('json.html')
 
 
 @app.route('/svs')
@@ -71,15 +71,6 @@ def postmethod():
 def getnext():
     jsdata = request.args.get('vid', 0, type=str)
     return jsonify(result=getNext(jsdata))
-
-@app.route('/uploadPlayback')
-def uploadPlayback():
-    duration = request.args.get('duration', 0, type=str)
-    currentTime = request.args.get('currentTime', 0, type=str)
-    print(duration)
-    print(currentTime)
-    return jsonify(result=0)
-    # return jsonify(result=getNext(jsdata))
 
 @app.route('/getpre')
 def getpre():
