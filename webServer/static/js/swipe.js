@@ -5,7 +5,7 @@ var player = videojs('example-video');
 
 // player.attachView(view);
 
-var cdnaddress = 'http://172.29.114.202:8080/dash/data/';
+var cdnaddress = 'http://172.29.114.202:8080/dash/mp4/';
 
 
 var thisVideo = '5904810145583287557';
@@ -23,16 +23,51 @@ $.getJSON('/getNeighbour', {
 
 
 
+var videoELement = document.getElementById("example-video");
 
-// add an event listener so when the video ends it will call the nextVideo function again
-// player.addEventListener('ended', nextVideo, false);
+
+
+function playPause() {
+    if (player.paused()) {
+        player.play();
+    } else {
+        player.pause();
+    }
+ }
+
+var touchtime = 0;
+videoELement.addEventListener("touchstart", function(event) {
+
+    if (touchtime == 0) {
+        // set first click
+        touchtime = new Date().getTime();
+    } else {
+        // compare first click to this click and see if they occurred within double click threshold
+        if (((new Date().getTime()) - touchtime) < 800) {
+            // double click occurred
+            // alert("double clicked");
+            touchtime = 0;
+    
+            playPause();
+    
+    
+        } else {
+            // not a double click so set as a new first click
+            touchtime = new Date().getTime();
+        }
+    }
+    
+});
+
+
 
 function toNextVideo() {
 
 
     $.getJSON('/uploadPlayback', {
         duration: player.duration(),
-        currentTime: player.currentTime()
+        currentTime: player.currentTime(),
+        vid: thisVideo
     }, function(data) {
     });
 
@@ -42,8 +77,8 @@ function toNextVideo() {
     thisVideo = nextVideo;
 
     player.src({
-        src: cdnaddress + thisVideo + '/manifest.mpd',
-        type: 'application/dash+xml'
+        src: cdnaddress + thisVideo + '.mp4',
+        type: 'video/mp4'
     });
 
     player.play();
@@ -56,11 +91,31 @@ function toNextVideo() {
 
 }
 
+
+function toPreVideo() {
+    thisVideo = preVideo;
+
+    player.src({
+        src: cdnaddress + thisVideo + '.mp4',
+        type: 'video/mp4'
+    });
+
+
+    player.play();
+
+
+    $.getJSON('/getNeighbour', {
+        vid: thisVideo}, function(data) {
+        preVideo = data.uidPre;
+        nextVideo = data.uidNext;
+    });
+}
+
 player.ready(function() {
 
     player.src({
-        src: cdnaddress + thisVideo + '/manifest.mpd',
-        type: 'application/dash+xml'
+        src: cdnaddress + thisVideo + '.mp4',
+        type: 'video/mp4'
     });
 
     player.play();
@@ -100,22 +155,7 @@ window.addEventListener("touchend",function(event){
         if(end > start + offset){
             // alert("left -> right");
 
-            thisVideo = preVideo;
-
-            player.src({
-                src: cdnaddress + thisVideo + '/manifest.mpd',
-                type: 'application/dash+xml'
-            });
-
-
-            player.play();
-
-
-            $.getJSON('/getNeighbour', {
-                vid: thisVideo}, function(data) {
-                preVideo = data.uidPre;
-                nextVideo = data.uidNext;
-            });
+            toPreVideo();
 
         }
 

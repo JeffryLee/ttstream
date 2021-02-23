@@ -8,6 +8,9 @@
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 
+import time
+
+
 import os
 from DbHandler import DbHandler
 
@@ -45,6 +48,7 @@ def getNext(vid):
 def getPre(vid):
     return dbHandler.queryPre(vid)
 
+
 @app.route('/svsd')
 def json():
     return render_template('index-datacollection.html')
@@ -75,9 +79,20 @@ def getnext():
 @app.route('/uploadPlayback')
 def uploadPlayback():
     duration = request.args.get('duration', 0, type=str)
-    currentTime = request.args.get('currentTime', 0, type=str)
+    playbackTime = request.args.get('currentTime', 0, type=str)
+    vid = request.args.get('vid', 0, type=str)
+
+    print(vid)
     print(duration)
-    print(currentTime)
+    print(playbackTime)
+    print(request.remote_addr)
+    curtime = time.time()
+    formattime = time.ctime(curtime)
+    print(curtime)
+    print(formattime)
+
+    dbHandler.saveData(request.remote_addr, vid, duration, playbackTime, curtime, formattime)
+    
     return jsonify(result=0)
     # return jsonify(result=getNext(jsdata))
 
@@ -90,8 +105,8 @@ def getpre():
 def getNeighbour():
     jsdata = request.args.get('vid', 0, type=str)
     ret = {}
-    print("======================")
-    print(jsdata)
+    # print("======================")
+    # print(jsdata)
     ret["uidPre"] = getPre(jsdata)
     ret["uidNext"] = getNext(jsdata)
     return jsonify(ret)

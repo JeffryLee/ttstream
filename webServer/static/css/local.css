@@ -1,3 +1,8 @@
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   padding-top: 0px;
   color: #868688;
@@ -55,6 +60,24 @@ transform: translateY(-50%);
    */
 
 
+/* .video-js .vjs-big-play-button {
+    left: 40% !important;
+    top: 40% !important;
+    width: 20%;
+    height: 20%;
+}
+
+.video-js .vjs-play-control:before {
+    top:20% !important;
+    content: '\f101';
+    font-size: 48px;
+} */
+
+.vjs-default-skin .vjs-big-play-button {
+  left: 40%;
+  top: 40%;
+  width: 20%;
+  height: 20%;}
 
 .video-js {
   position: relative;
