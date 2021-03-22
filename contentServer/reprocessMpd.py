@@ -4,13 +4,13 @@ from xml.etree import ElementTree as etree
 import os
 
 
-dataDir = "/home/acer/Documents/ttstream/contentServer/dash/data/"
+dataDir = "./dash/data/"
 fileList = os.listdir(dataDir)
 
 # tmp = 0
 etree.register_namespace("", "urn:mpeg:dash:schema:mpd:2011")
 
-fileList = fileList[0:2]
+# fileList = fileList[0:2]
 
 
 print(fileList)
@@ -20,7 +20,16 @@ for folderName in fileList:
     if folderName[0] == ".":
         continue
 
-    tree = ET.parse(dataDir+folderName+"/manifest.mpd")
+    backmpd = dataDir + folderName + "/manifest-back.mpd"
+    curmpd = dataDir + folderName + "/manifest.mpd"
+
+    if os.path.exists(backmpd):
+        os.system("rm "+backmpd)
+
+    os.system("""mv %s %s"""%(curmpd, backmpd))
+
+
+    tree = ET.parse(backmpd)
     root = tree.getroot()
 
     for i in range(len(root[1])):
@@ -56,11 +65,26 @@ for folderName in fileList:
 
         root[1][i][0].attrib['bandwidth'] = str(int(bitrate_max))
 
-        outstr = ET.tostring(root, encoding="utf8", method="xml")
+    totalvbtis = len(root[1])
+    itemlist = []
 
-        fd = open(dataDir+folderName+"/manifest-back.mpd", "wb")
-        fd.write(outstr)
-        fd.close()
+    for i in range(1, totalvbtis-1):
+        root[1][0].insert(i, root[1][i][0])
+        itemlist.append(root[1][i])
+
+
+    for i in range(1, totalvbtis-1):
+        root[1].remove(itemlist[i-1])
+
+    # print(len(root[1]))
+
+    # print(ET.tostring(root, encoding="utf8", method="xml"))
+    outstr = ET.tostring(root, encoding="utf8", method="xml")
+
+
+    fd = open(curmpd, "wb")
+    fd.write(outstr)
+    fd.close()
 
 
 
