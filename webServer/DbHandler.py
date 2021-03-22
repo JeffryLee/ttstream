@@ -48,6 +48,15 @@ class DbHandler:
         # Just be sure any changes have been committed or they will be lost.
         self.conn.close()
 
+    def saveData(self, ip, uid, duration, playbacktime, time, timefmt):
+
+        c = self.conn.cursor()
+
+        c.execute("INSERT INTO DATASET VALUES (?, ?, ?, ?, ?, ?)", (ip, uid, float(duration), float(playbacktime), float(time), timefmt))
+
+        self.conn.commit()
+
+
     def __init__(self):
         self.conn = sqlite3.connect('main.db', check_same_thread=False)
 
