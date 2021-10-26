@@ -1,0 +1,1 @@
+To clean the trace, run buildIdx.py first to get the video id to sequence number mapping and run then  run the cleandatatraces.py to generate the swipe traces for different user.

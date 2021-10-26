@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+	<link rel="stylesheet" href="styles.css" />
+	<script src="/home/acer/Documents/dash-nb.js/dist/dash.all.debug.js"></script>
+	<script src="data.js"></script>
+
+	<script class="code">
+		var video,
+			players,
+			idx,
+			superplayer,
+			view_idx = -1,
+			cache_idx = 0
+
+		function init() {
+			superplayer = dashjs.SuperPlayer().create();
+			var video = document.getElementById('video');
+
+			for (i = 0; i < 10; i++) {
+				url = "http://172.29.114.202:8080/dash/data/" + vids[cache_idx] + "/manifest.mpd"
+				ret = superplayer.attachSource(url);
+
+				if (ret == 0) {
+					cache_idx += 1
+				}
+			}
+
+			superplayer.attachView(video);
+
+			var intervalID = setInterval(
+				function(){
+					var url = "http://172.29.114.202:8080/dash/data/" + vids[cache_idx] + "/manifest.mpd"
+					var ret = superplayer.attachSource(url);
+
+					if (ret == 0) {
+						cache_idx += 1
+					}
+				}, 500);
+		}
+
+		function next() {
+			view_idx += 1
+			superplayer.playNext();
+			// if ()
+		}
+	</script>
+</head>
+<body>
+	<div id="bg">
+
+		<div id="videoContainer">
+			<video id="video">
+			</video>
+			<ul id="video-controls" class="controls">
+				<li><button id="playpause" type="button">Play/Pause</button></li>
+				<li><button id="stop" type="button">Stop</button></li>
+				<li class="progress">
+					<progress id="progress" value="0" min="0">
+						<span id="progress-bar"></span>
+					</progress>
+				</li>
+				<li>
+					<button id="nextbutton" onClick="next()">Next</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+<script src="video-player.js"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			init();
+		});
+	</script>
+</body>
+</html>
